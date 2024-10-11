@@ -27,10 +27,11 @@ mod vectors {
         scalar::Scalar,
         traits::IsIdentity,
     };
+
+    #[cfg(not(feature = "digest"))]
     use sha2::{digest::Digest, Sha512};
 
     use std::{
-        convert::TryFrom,
         io::{BufRead, BufReader},
         ops::Neg,
     };
@@ -280,8 +281,6 @@ mod vectors {
 mod integrations {
     use super::*;
     use rand::rngs::OsRng;
-    #[cfg(feature = "digest")]
-    use sha2::Sha512;
     use std::collections::HashMap;
 
     #[test]
