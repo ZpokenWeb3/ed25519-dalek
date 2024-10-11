@@ -505,6 +505,11 @@ impl VerifyingKey {
     pub fn to_montgomery(&self) -> MontgomeryPoint {
         self.point.to_montgomery()
     }
+
+    /// Return this verifying key in Edwards form.
+    pub fn to_edwards(&self) -> EdwardsPoint {
+        self.point
+    }
 }
 
 impl Verifier<ed25519::Signature> for VerifyingKey {
@@ -567,6 +572,12 @@ impl TryFrom<&[u8]> for VerifyingKey {
 impl pkcs8::EncodePublicKey for VerifyingKey {
     fn to_public_key_der(&self) -> pkcs8::spki::Result<pkcs8::Document> {
         pkcs8::PublicKeyBytes::from(self).to_public_key_der()
+    }
+}
+
+impl From<VerifyingKey> for EdwardsPoint {
+    fn from(vk: VerifyingKey) -> EdwardsPoint {
+        vk.point
     }
 }
 
